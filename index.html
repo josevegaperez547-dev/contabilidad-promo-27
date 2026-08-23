@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <style>
@@ -527,7 +527,13 @@ function viewResumen(){
 }
 
 function drawCharts(){
-  if(typeof Chart === 'undefined') return;
+  if(typeof Chart === 'undefined'){
+    ['chartSecciones','chartBalance'].forEach(id=>{
+      const c = document.getElementById(id);
+      if(c) c.parentElement.innerHTML = '<div class="empty-note">No se pudo cargar la librería de gráficos (revisa tu conexión y recarga la página).</div>';
+    });
+    return;
+  }
   const c1 = document.getElementById('chartSecciones');
   const c2 = document.getElementById('chartBalance');
   if(charts.secciones){ charts.secciones.destroy(); }
